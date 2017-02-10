@@ -301,29 +301,41 @@ void move_s(direction dir, int servo/*6-11*/, int deg){
   //Format: dir? (up) : (down)
   //Meaning: Is direction up? yes- do this : no- do this
   switch(servo){
-    case 6:
-      Servo1.write(dir? -deg: deg);
-      Serial.println("Servo1pos:  "+Servo1Pos); 
+    case 6: //left
+      if (dir == up) deg1 = deg1 + deg;
+      else if (dir == down) deg1 = deg1 - deg;
+      Servo1.write(deg1);
+      //Serial.println("Servo1pos:  "+deg1); 
       break;
-    case 7:
-      Servo2.write(dir? deg: -deg);
-      Serial.println("Servo2pos:  "+Servo2Pos); 
+    case 7: //right
+      if (dir == up) deg2 = deg2 - deg;
+      else if (dir == down) deg2 = deg2 + deg;
+      Servo2.write(deg2);
+      //Serial.println("Servo2pos:  "+deg2); 
       break;
-    case 8:
-      Servo3.write(dir? -deg: deg);
-      Serial.println("Servo3pos:  "+Servo3Pos); 
+    case 8: //left
+      if (dir == up) deg3 = deg3 + deg;
+      else if (dir == down) deg3 = deg3 - deg;
+      Servo3.write(deg3);
+      //Serial.println("Servo3pos:  "+deg3); 
       break;
-    case 9:
-      Servo4.write(dir? deg: -deg);
-      Serial.println("Servo4pos:  "+Servo4Pos); 
+    case 9: //right
+      if (dir == up) deg4 = deg4 - deg;
+      else if (dir == down) deg4 = deg4 + deg;
+      Servo4.write(deg4);
+     // Serial.println("Servo4pos:  "+deg4); 
       break;
-    case 10:
-      Servo5.write(dir? -deg: deg);
-      Serial.println("Servo5pos:  "+Servo5Pos); 
+    case 10: //left
+      if (dir == up) deg5 = deg5 + deg;
+      else if (dir == down) deg5 = deg5 - deg;
+      Servo5.write(deg5);
+      //Serial.println("Servo5pos:  "+deg5); 
       break;
-    case 11:
-      Servo6.write(dir? deg: -deg);
-      Serial.println("Servo6pos:  "+Servo6Pos); 
+    case 11: //right
+      if (dir == up) deg6 = deg6 - deg;
+      else if (dir == down) deg6 = deg6 + deg;
+      Servo6.write(deg6);
+      //Serial.println("Servo6pos:  "+deg6); 
       break;
     default:
       printf("Human error found!!! ALERT! ALERT!\n");
