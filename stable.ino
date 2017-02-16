@@ -18,7 +18,7 @@
 #endif
 //=========================
 
-/* Some functions */
+/* Some functions declared*/
 void move_s(int dir, int servo/*6-11*/, int deg);
 void x_rot(int deg);
 void y_rot(int deg);
@@ -274,19 +274,10 @@ up = 1,
 down = 0,
 };
 
-//
-
-void y_rot(int deg){
-  //Move B - if deg is pos, move B up
-  move_s(up, 9, deg);
-  move_s(up, 10, deg);
-
-  //Move C - if deg is pos, move C down
-  move_s(down, 6, deg);
-  move_s(down, 11, deg); 
-}
+//For now, we'll focus on the most important 3 DOF
 // X Movements
 void x_rot(int deg){
+  //Pitching - rotating towards positive y region over x-axis
   //Move A - if deg is pos, move A down
   move_s(down, 7, deg);
   move_s(down, 8, deg);
@@ -297,8 +288,23 @@ void x_rot(int deg){
   move_s(up, 6, deg);
   move_s(up, 11, deg);
 }
+// END OF X Movements
+
+// Y Movements
+void y_rot(int deg){
+  //Rolling - rotating towards positive x region over y-axis
+  //Move B - if deg is pos, move B up
+  move_s(up, 9, deg);
+  move_s(up, 10, deg);
+
+  //Move C - if deg is pos, move C down
+  move_s(down, 6, deg);
+  move_s(down, 11, deg); 
+}
+// END OF Y Movements
 
 // Z Movements
+//displacement over z-axis
 void z_up(int deg){
   move_s(up, 6, deg);
   move_s(up, 7, deg);
@@ -306,15 +312,6 @@ void z_up(int deg){
   move_s(up, 9, deg);
   move_s(up, 10, deg);  
   move_s(up, 11, deg);
-}
-
-void z_down(int deg){
-  move_s(down, 6, deg);
-  move_s(down, 7, deg);
-  move_s(down, 8, deg);  
-  move_s(down, 9, deg);
-  move_s(down, 10, deg);  
-  move_s(down, 11, deg);
 }
 // END OF Z Movements
 
@@ -366,7 +363,7 @@ void move_s(direction dir, int servo/*6-11*/, int deg){
       //Serial.println("Servo6pos:  "+deg6); 
       break;
     default:
-      printf("Human error found!!! ALERT! ALERT!\n");
+      printf("Unknwon Servo: Bad-coder found!!! ALERT! ALERT!\n");
       break;
   } // end of switch-case
 } // end of move()
