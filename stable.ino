@@ -45,7 +45,7 @@ int Servo6Pos = 0;
 int deg1 = 60;
 int deg2 = 120;
 int deg3 = 60;
-int deg4 = 120;
+int deg4 = 120;  
 int deg5 = 60;
 int deg6 = 120;
 int degPitch = -1;
@@ -274,6 +274,8 @@ up = 1,
 down = 0,
 };
 
+//
+
 void y_rot(int deg){
   //Move B - if deg is pos, move B up
   move_s(up, 9, deg);
@@ -283,7 +285,7 @@ void y_rot(int deg){
   move_s(down, 6, deg);
   move_s(down, 11, deg); 
 }
-
+// X Movements
 void x_rot(int deg){
   //Move A - if deg is pos, move A down
   move_s(down, 7, deg);
@@ -291,9 +293,35 @@ void x_rot(int deg){
   //Move B - if deg is pos, move B up
   move_s(up, 9, deg);
   move_s(up, 10, deg);
-  //Move C - if deg is pos, move 
+  //Move C - if deg is pos, move C up
   move_s(up, 6, deg);
   move_s(up, 11, deg);
+}
+
+// Z Movements
+void z_up(int deg){
+  move_s(up, 6, deg);
+  move_s(up, 7, deg);
+  move_s(up, 8, deg);  
+  move_s(up, 9, deg);
+  move_s(up, 10, deg);  
+  move_s(up, 11, deg);
+}
+
+void z_down(int deg){
+  move_s(down, 6, deg);
+  move_s(down, 7, deg);
+  move_s(down, 8, deg);  
+  move_s(down, 9, deg);
+  move_s(down, 10, deg);  
+  move_s(down, 11, deg);
+}
+// END OF Z Movements
+
+int guard(deg){
+  if ((deg > 180)? 180 : deg));
+  else if ((deg < 0)? 0 : deg));
+  return deg;
 }
 
 
@@ -302,38 +330,38 @@ void move_s(direction dir, int servo/*6-11*/, int deg){
   //Meaning: Is direction up? yes- do this : no- do this
   switch(servo){
     case 6: //left
-      if (dir == up) deg1 = deg1 + deg;
-      else if (dir == down) deg1 = deg1 - deg;
+      if (dir == up) deg1 = guard(deg1 + deg);
+      else if (dir == down) deg1 = guard(deg1 - deg);
       Servo1.write(deg1);
       //Serial.println("Servo1pos:  "+deg1); 
       break;
     case 7: //right
-      if (dir == up) deg2 = deg2 - deg;
-      else if (dir == down) deg2 = deg2 + deg;
+      if (dir == up) deg2 = guard(deg2 - deg);
+      else if (dir == down) deg2 = guard(deg2 + deg);
       Servo2.write(deg2);
       //Serial.println("Servo2pos:  "+deg2); 
       break;
     case 8: //left
-      if (dir == up) deg3 = deg3 + deg;
-      else if (dir == down) deg3 = deg3 - deg;
+      if (dir == up) deg3 = guard(deg3 + deg);
+      else if (dir == down) deg3 = guard(deg3 - deg);
       Servo3.write(deg3);
       //Serial.println("Servo3pos:  "+deg3); 
       break;
     case 9: //right
-      if (dir == up) deg4 = deg4 - deg;
-      else if (dir == down) deg4 = deg4 + deg;
+      if (dir == up) deg4 = guard(deg4 - deg);
+      else if (dir == down) deg4 = guard(deg4 + deg);
       Servo4.write(deg4);
      // Serial.println("Servo4pos:  "+deg4); 
       break;
     case 10: //left
-      if (dir == up) deg5 = deg5 + deg;
-      else if (dir == down) deg5 = deg5 - deg;
+      if (dir == up) deg5 = guard(deg5 + deg);
+      else if (dir == down) deg5 = guard(deg5 - deg);
       Servo5.write(deg5);
       //Serial.println("Servo5pos:  "+deg5); 
       break;
     case 11: //right
-      if (dir == up) deg6 = deg6 - deg;
-      else if (dir == down) deg6 = deg6 + deg;
+      if (dir == up) deg6 = guard(deg6 - deg);
+      else if (dir == down) deg6 = guard(deg6 + deg);
       Servo6.write(deg6);
       //Serial.println("Servo6pos:  "+deg6); 
       break;
@@ -342,6 +370,7 @@ void move_s(direction dir, int servo/*6-11*/, int deg){
       break;
   } // end of switch-case
 } // end of move()
+
 
 
 
