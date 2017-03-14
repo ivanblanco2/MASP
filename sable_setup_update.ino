@@ -274,15 +274,15 @@ void processAccelGyro()
     
     x_rot(((3.0) * (mpuPitch - degPitch))/1);
     y_rot(((3.0) * (mpuRoll - degRoll))/1);
-    //z_up(((10.0) * (aaWorld.z/512-1))/1);
+    //z_a(((10.0) * (aaWorld.z/512-1))/1);
     degRoll = mpuRoll;
     degPitch = mpuPitch;
 
     //vel = vel + aaWorld.z/2058;
-    Serial.print("Roll :");
-    Serial.print(mpuRoll);
-    Serial.print("   Pitch :   ");
-    Serial.println(mpuPitch);
+    //Serial.print("Roll :");
+    //Serial.print(mpuRoll);
+    //Serial.print("   Pitch :   ");
+    //Serial.println(mpuPitch);
     //Serial.print("   Yaw :   ");
     //Serial.println(mpuYaw);
     //Serial.print("aaWorld: ");
@@ -292,8 +292,12 @@ void processAccelGyro()
     //Serial.print("  ");
     //Serial.println(degRoll);
     //Serial.println(M_PI);
+    Serial.print("accel: ");
+    Serial.println(10.0 * aaWorld.z/2058);
   
   delay (20);
+    
+  //Check Servo positions  
   /*Serial.print("d6: ");
   Serial.print(deg1); 
   Serial.print("d7: ");
@@ -309,7 +313,6 @@ void processAccelGyro()
   
     // flush buffer to prevent overflow
     mpu.resetFIFO();
-
   } 
 } 
 
@@ -320,7 +323,7 @@ void processAccelGyro()
 //For now, we'll focus on the most important 3 DOF
 // X Movements
 void x_rot(int deg){
-  //Pitching - rotating towards positive y region over x-axis
+  //Pitching - rotating towards positive y region over x-axis [towards A]
   //Move A - if deg is pos, move A down
   move_s(down, 7, deg);
   move_s(down, 8, deg);
@@ -335,7 +338,7 @@ void x_rot(int deg){
 
 // Y Movements
 void y_rot(int deg){
-  //Rolling - rotating towards positive x region over y-axis
+  //Rolling - rotating towards positive x region over y-axis [towards C]
   //Move B - if deg is pos, move B up
   move_s(up, 9, deg);
   move_s(up, 10, deg);
@@ -348,19 +351,35 @@ void y_rot(int deg){
 
 // Z Movements
 //displacement over z-axis
-void z_up(int deg){
-  move_s(up, 6, deg);
-  move_s(up, 7, deg);
-  move_s(up, 8, deg);  
-  move_s(up, 9, deg);
-  move_s(up, 10, deg);  
-  move_s(up, 11, deg);
+void z_a(int accel){
+  //Top ceiling
+  if ((deg1 + accel) > 180) {accel = 180 - deg1;}
+  if ((deg2 + accel) > 180) {accel = 180 - deg2;}
+  if ((deg3 + accel) > 180) {accel = 180 - deg3;}
+  if ((deg4 + accel) > 180) {accel = 180 - deg4;}
+  if ((deg5 + accel) > 180) {accel = 180 - deg5;}
+  if ((deg6 + accel) > 180) {accel = 180 - deg6;}
+  
+  //Bottom flooring
+  if ((deg1 + accel) < 0) {accel = 0 - deg1;}
+  if ((deg2 + accel) < 0) {accel = 0 - deg2;}
+  if ((deg3 + accel) < 0) {accel = 0 - deg3;}
+  if ((deg4 + accel) < 0) {accel = 0 - deg4;}
+  if ((deg5 + accel) < 0) {accel = 0 - deg5;}
+  if ((deg6 + accel) < 0) {accel = 0 - deg6;}
+  
+  Servo1.write(deg1 + accel);
+  Servo2.write(deg2 + accel);
+  Servo3.write(deg3 + accel);
+  Servo4.write(deg4 + accel);
+  Servo5.write(deg5 + accel);
+  Servo6.write(deg6 + accel);
 }
 // END OF Z Movements
 
 int guard(int deg){
-  if ((deg > 180)? 180 : deg);
-  else if ((deg < 0)? 0 : deg);
+  if (deg > 180) {deg = 180;}
+  if (deg < 0) {deg = 0;)
   return deg;
 }
 
